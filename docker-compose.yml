@@ -1,0 +1,65 @@
+services:
+
+  database:
+    build: ./database
+    container_name: bvari-database
+    networks:
+      - backend-database
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-uroot",
+          "-prootpassword",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  backend:
+    build: ./backend
+    container_name: bvari-backend
+    networks:
+      - frontend-backend
+      - backend-database
+    environment:
+      MYSQL_HOST: database
+      MYSQL_PORT: "3306"
+      MYSQL_USER: root
+      MYSQL_PASSWORD: rootpassword
+      MYSQL_DATABASE: bvari
+    depends_on:
+      database:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: ""
+    container_name: bvari-frontend
+    networks:
+      - frontend-backend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+networks:
+  # frontend <-> backend only
+  frontend-backend:
+    driver: bridge
+  # backend <-> database only (no route to the public internet)
+  backend-database:
+    driver: bridge
+    internal: true
+
+volumes:
+  mysql-data:
