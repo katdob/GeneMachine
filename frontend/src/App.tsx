@@ -1,19 +1,33 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { fetchHello } from './APICalls/hello'
 import searchGear from './assets/search-gear.svg'
 import './App.css'
 
+function wait(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 function App() {
 
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState('search for...');
   const [showPatientGeneOrganSelectorOptions, setshowPatientGeneOrganSelectorOptions] = useState(false);
   const [searchCategoryTitle, setSearchCategoryTitle] = useState('Select Search Type');
   const [searchCategory, setSearchCategory] = useState('');
+  const [searchParam, setSearchParam] = useState('');
 
   const handleReactLogoClick = () => {
     fetchHello()
       .then((data) => console.log(data.message))
       .catch((err) => console.error(err))
+  }
+
+  const getSearchResults = async () => {
+    setTimeout(() => 2000);
+    const results = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/search?category=${searchCategory}&param=${searchParam}`)
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
+    console.log(results);
   }
 
   return (
@@ -57,9 +71,13 @@ function App() {
             name="search"
             id="search-bar-input"
             className="search-bar-input"
-            placeholder="Search patients..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search for..."
+            onChange={(e) => {
+              setSearchParam(e.target.value);
+              if (searchCategory && searchParam) {
+                getSearchResults();
+              }
+            }}
           />
 
         </div>
