@@ -45,10 +45,22 @@
   margin: 0 -0.25rem 0 0;
   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   border: 0.25rem solid var(--willow-green);
+  cursor: pointer;
 }
 
 .patient-gene-organ-selector p {
   margin: 0;
+}
+
+.patient-gene-organ-selector-options {
+  font-size: 0.75rem;
+  max-width: 20%;
+  max-height: 10rem;
+  min-width: 21%;
+  min-height: 1rem;
+  margin: -1.25rem 0rem 0rem 18.75%;
+  border: 0.25rem solid var(--willow-green);
+  
 }
 
 .search-bar-input {
@@ -63,6 +75,10 @@
 
 input:focus {
   outline: none;
+}
+
+.search-category {
+  cursor: pointer;
 }
 
 .search-results {

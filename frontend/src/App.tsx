@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { fetchHello } from './APICalls/hello'
 import searchGear from './assets/search-gear.svg'
 import './App.css'
 
 function App() {
-  // const [count, setCount] = useState(0)
+
   const [query, setQuery] = useState('')
+  const [showPatientGeneOrganSelectorOptions, setshowPatientGeneOrganSelectorOptions] = useState(false);
+  const [searchCategoryTitle, setSearchCategoryTitle] = useState('Select Search Type');
+  const [searchCategory, setSearchCategory] = useState('');
 
   const handleReactLogoClick = () => {
     fetchHello()
@@ -39,8 +42,14 @@ function App() {
 
         <div id="search-bar" className="search-bar">
 
-          <div id="patient-gene-organ-selector" className="patient-gene-organ-selector">
-            <p>Select Search Type</p>
+          <div 
+            id="patient-gene-organ-selector" 
+            className="patient-gene-organ-selector"
+            onClick={() => {
+              setshowPatientGeneOrganSelectorOptions(!showPatientGeneOrganSelectorOptions);
+            }}
+          >
+            <p className="patient-gene-organ-selector-text">{searchCategoryTitle}</p>
           </div>
 
           <input
@@ -54,6 +63,46 @@ function App() {
           />
 
         </div>
+
+        { showPatientGeneOrganSelectorOptions == true &&
+        <>
+
+          <div
+            className="patient-gene-organ-selector-options"
+            id="patient-gene-organ-selector-options"
+          >
+          
+            <p className="search-category"
+              onClick={() => {
+                setSearchCategory('Patient');
+                setSearchCategoryTitle('Select Search Type: Patient');
+                setshowPatientGeneOrganSelectorOptions(false);
+              }}
+            >
+              Patient
+              </p>
+            <p 
+              className="search-category"
+              onClick={() => {
+                setSearchCategory('Gene');
+                setSearchCategoryTitle('Select Search Type: Gene');
+                setshowPatientGeneOrganSelectorOptions(false);
+              }}>
+                Gene
+            </p>
+            <p className="search-category"
+              onClick={() => {
+                setSearchCategory('Organ');
+                setSearchCategoryTitle('Select Search Type: Organ');
+                setshowPatientGeneOrganSelectorOptions(false);
+              }}>
+              Organ
+            </p>
+          
+          </div>
+      
+        </>
+        }
 
         <div id="search-results">
 
