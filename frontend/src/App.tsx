@@ -14,6 +14,30 @@ function App() {
   const [searchCategoryTitle, setSearchCategoryTitle] = useState('Select Search Type');
   const [searchCategory, setSearchCategory] = useState('');
   const [searchParam, setSearchParam] = useState('');
+  const [patientResults, setPatientResults] = useState([
+    {
+      "first_name": "John",
+      "last_name": "Smith",
+      "gender": "M",
+      "street_address": "123 Main St",
+      "city": "Boston",
+      "state": "MA",
+      "zip_code": "02101",
+      "phone": "555-1234"
+    }
+  ]);
+  const [geneResults, setGeneResults] = useState([
+    {
+      "gene": "BCD",
+      "gene_description": "BCD gene description"
+    }
+  ]);
+  const [organResults, setOrganResults] = useState([
+    {
+      "organ": "Liver",
+      "organ_description": "Liver description"
+    }
+  ]);
 
   const handleReactLogoClick = () => {
     fetchHello()
@@ -124,6 +148,77 @@ function App() {
 
         <div id="search-results">
 
+          {searchCategory === 'Patient' &&
+            <div id="patient-results" className="patient-results">
+              {patientResults.map((p, index) => (  
+                <div key={index} className="patient-result-item">
+
+                  <div className="patient-result-item-details">
+
+                    <div className="patient-result-item-name">
+                      <p>Name:</p>
+                      <p>{p.first_name} {p.last_name}</p>
+                    </div>
+
+                    <div className="patient-result-item-gender">
+                      <p>Gender:</p>
+                      <p>{p.gender}</p>
+                    </div>
+
+                  </div>
+
+                  <div className="patient-result-item-details">
+                    <div className="patient-result-item-street-address">
+                      <p>Street Address:</p>
+                      <p>{p.street_address}</p>
+                    </div>
+
+                    <div className="patient-result-item-city">
+                      <p>City:</p>
+                      <p>{p.city}</p>
+                    </div>
+
+                    <div className="patient-result-item-state">
+                      <p>State:</p>
+                      <p>{p.state}</p>
+                    </div>
+
+                    <div className="patient-result-item-zip-code">
+                      <p>Zip Code:</p>
+                      <p>{p.zip_code}</p>
+                    </div>
+
+                    <div className="patient-result-item-phone">
+                      <p>Phone:</p>
+                      <p>{p.phone}</p>
+                    </div>
+
+                  </div>
+
+                </div>
+              ))}
+            </div>
+          }
+          {searchCategory === 'Gene' &&
+            <div id="gene-results">
+              {geneResults.map((g) => (  
+                <div id="gene-result-item">
+                  <p>{g.gene}</p>
+                  <p>{g.gene_description}</p>
+                </div>
+              ))}
+            </div>
+          }
+          {searchCategory === 'Organ' &&
+            <div id="organ-results">
+              {organResults.map((o) => (  
+                <div id="organ-result-item">
+                  <p>{o.organ}</p>
+                  <p>{o.organ_description}</p>
+                </div>
+              ))}
+            </div>
+          }
         </div>
 
         <div id="footer">
