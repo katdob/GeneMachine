@@ -156,41 +156,41 @@ function App() {
                   <div className="patient-result-item-details">
 
                     <div className="patient-result-item-name">
-                      <p>Name:</p>
+                      <p className="results-label">Name:</p>
                       <p>{p.first_name} {p.last_name}</p>
                     </div>
 
                     <div className="patient-result-item-gender">
-                      <p>Gender:</p>
+                      <p className="results-label">Gender:</p>
                       <p>{p.gender}</p>
+                    </div>
+
+                    <div className="patient-result-item-phone">
+                      <p className="results-label">Phone:</p>
+                      <p>{p.phone}</p>
                     </div>
 
                   </div>
 
                   <div className="patient-result-item-details">
                     <div className="patient-result-item-street-address">
-                      <p>Street Address:</p>
+                      <p className="results-label">Street Address:</p>
                       <p>{p.street_address}</p>
                     </div>
 
                     <div className="patient-result-item-city">
-                      <p>City:</p>
+                      <p className="results-label">City:</p>
                       <p>{p.city}</p>
                     </div>
 
                     <div className="patient-result-item-state">
-                      <p>State:</p>
+                      <p className="results-label">State:</p>
                       <p>{p.state}</p>
                     </div>
 
                     <div className="patient-result-item-zip-code">
-                      <p>Zip Code:</p>
+                      <p className="results-label">Zip Code:</p>
                       <p>{p.zip_code}</p>
-                    </div>
-
-                    <div className="patient-result-item-phone">
-                      <p>Phone:</p>
-                      <p>{p.phone}</p>
                     </div>
 
                   </div>
@@ -199,10 +199,11 @@ function App() {
               ))}
             </div>
           }
+
           {searchCategory === 'Gene' &&
             <div id="gene-results">
               {geneResults.map((g) => (  
-                <div id="gene-result-item">
+                <div id="gene-result-item" className="gene-result-item">
                   <p>{g.gene}</p>
                   <p>{g.gene_description}</p>
                 </div>
@@ -212,7 +213,7 @@ function App() {
           {searchCategory === 'Organ' &&
             <div id="organ-results">
               {organResults.map((o) => (  
-                <div id="organ-result-item">
+                <div id="organ-result-item" className="organ-result-item">
                   <p>{o.organ}</p>
                   <p>{o.organ_description}</p>
                 </div>

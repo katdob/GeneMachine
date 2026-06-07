@@ -86,9 +86,9 @@ input:focus {
 }
 
 .patient-result-item {
-  border: 0.25rem solid var(--willow-green);
-  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+  border: 0.25rem solid var(--pacific-blue);
+  padding: 0rem 0.5rem 0rem 0.5rem;
+  margin: 0rem 0.5rem 0rem 0.5rem;
   display: block;
   gap: 0.5rem;
   max-width: 60%;
@@ -109,10 +109,74 @@ input:focus {
 .patient-result-item-name {
   display: inline-block;
   float: left;
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
 .patient-result-item-gender {
   display: inline-block;
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.patient-result-item-phone {
+  display: inline-block;
+  float: right;
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+ }
+
+.patient-result-item-street-address {
+  display: inline-block;
+  float: left;
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.patient-result-item-city {
+  display: inline-block;
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.patient-result-item-state {
+  display: inline-block;
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.patient-result-item-zip-code {
+  display: inline-block;
+  float: right;
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.results-label {
+  text-decoration: underline;
+}
+
+.gene-result-item {
+  border: 0.25rem solid var(--pacific-blue);
+  padding: 0rem 1rem 0rem 1rem;
+  margin: 0rem 0.5rem 0rem 0.5rem;
+  display: block;
+  gap: 0.5rem;
+  max-width: 40%;
+  min-width: 10%;
+  min-height: 1rem;
+}
+
+.gene-result-item {
+  display: inline-block;  
+}
+
+.organ-result-item {
+  border: 0.25rem solid var(--pacific-blue);
+  padding: 0rem 1rem 0rem 1rem;
+  margin: 0rem 0.5rem 0rem 0.5rem;
+  display: block;
+  gap: 0.5rem;
+  max-width: 40%;
+  min-width: 10%;
+  min-height: 1rem;
+}
+
+.organ-result-item {
+  display: inline-block;  
 }
 
 .footer {

@@ -63,12 +63,7 @@ def get_patient():
         )
     ).all()
 
-    return jsonify(
-        [
-            {k: v for k, v in result.to_dict().items() if k != "patient_id"}
-            for result in results
-        ]
-    )
+    return jsonify([result.to_dict() for result in results])
 
 
 @routes_bp.get("/get_diagnosis")
