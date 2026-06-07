@@ -56,6 +56,8 @@ def get_patients():
     pattern = f"%{patient}%"
     results = PatientDetails.query.filter(
         or_(
+            PatientDetails.patient_id.ilike(pattern),
+            PatientDetails.gender.ilike(pattern),
             PatientDetails.first_name.ilike(pattern),
             PatientDetails.last_name.ilike(pattern),
             PatientDetails.city.ilike(pattern),

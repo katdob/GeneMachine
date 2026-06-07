@@ -22,7 +22,6 @@ export type Patient = {
 export type Gene = {
   patient_id: string
   gene: string
-  gene_description: string
 }
 
 export type Diagnosis = {

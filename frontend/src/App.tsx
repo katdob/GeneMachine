@@ -11,44 +11,10 @@ function App() {
   const [showPatientGeneDiagnosisSelectorOptions, setShowPatientGeneDiagnosisSelectorOptions] = useState(false);
   const [searchCategoryTitle, setSearchCategoryTitle] = useState('Select Search Type');
   const [searchCategory, setSearchCategory] = useState('');
-  // const [searchParam, setSearchParam] = useState('');
 
   const { patientData, setPatientData } = useData();
   const { geneData, setGeneData } = useData();
   const { diagnosisData, setDiagnosisData } = useData();
-
-  // const getPatientResults = async () => {
-  //   if (patientData.length < 1) {
-  //     try {
-  //       const results = await getPatientData(searchParam)
-  //       setPatientData(results)
-  //     } catch (err) {
-  //       console.error(err)
-  //     }
-  //   }
-  // }
-
-  // const getGeneResults = async () => {
-  //   if (geneData.length < 1) {
-  //     try {
-  //       const results = await getGene(searchParam)
-  //       setGeneData(results)
-  //     } catch (err) {
-  //       console.error(err)
-  //     }
-  //   }
-  // }
-
-  // const getDiagnosisResults = async () => {
-  //   if (diagnosisData.length < 1) {
-  //     try {
-  //       const results = await getDiagnosisData(searchParam)
-  //       setDiagnosisData(results)
-  //     } catch (err) {
-  //       console.error(err)
-  //     }
-  //   }
-  // }
 
   return (
     <>
@@ -91,31 +57,19 @@ function App() {
             id="search-bar-input"
             className="search-bar-input"
             placeholder="Search for..."
-            // onChange={(e) => {
-            //   setSearchParam(e.target.value);
-            //   if (searchCategory === 'Patient') {
-            //     setTimeout(() => {
-            //       getPatientResults();
-            //     }, 2000);
-            //   } else if (searchCategory === 'Gene') {
-            //     setTimeout(() => {
-            //       getGeneResults();
-            //     }, 2000);
-            //   } else if (searchCategory === 'Diagnosis') {
-            //     setTimeout(() => {
-            //       getDiagnosisResults();
-            //     }, 2000);
-            //   }
-            // 
             onChange={(e) => {
               const value = e.target.value
-              // setSearchParam(value)
               if (!value.trim()) return
+
               if (searchCategory === 'Patient') {
                 getPatientData(value).then(setPatientData).catch(console.error)
-              } else if (searchCategory === 'Gene') {
+              } 
+
+              if (searchCategory === 'Gene') {
                 getGene(value).then(setGeneData).catch(console.error)
-              } else if (searchCategory === 'Diagnosis') {
+              }
+
+              if (searchCategory === 'Diagnosis') {
                 getDiagnosisData(value).then(setDiagnosisData).catch(console.error)
               }
             }}
@@ -182,6 +136,10 @@ function App() {
                       <p>{p.gender}</p>
                     </div>
 
+                  </div>
+
+                  <div className="patient-result-item-details">
+
                     <div className="patient-result-item-phone">
                       <p className="results-label">Phone:</p>
                       <p>{p.phone}</p>
@@ -199,6 +157,10 @@ function App() {
                       <p className="results-label">City:</p>
                       <p>{p.city}</p>
                     </div>
+
+                  </div>
+
+                  <div className="patient-result-item-details">
 
                     <div className="patient-result-item-state">
                       <p className="results-label">State:</p>
@@ -221,8 +183,10 @@ function App() {
             <div id="gene-results">
               {geneData.map((g) => (  
                 <div id="gene-result-item" className="gene-result-item">
+                  <p className="results-label">Patient ID:</p>
+                  <p>{g.patient_id}</p>
+                  <p className="results-label">Gene:</p>
                   <p>{g.gene}</p>
-                  <p>{g.gene_description}</p>
                 </div>
               ))}
             </div>
@@ -230,9 +194,12 @@ function App() {
 
           {searchCategory === 'Diagnosis' &&
             <div id="diagnosis-results">
-              {diagnosisData.map((o) => (  
+              {diagnosisData.map((d) => (  
                 <div id="diagnosis-result-item" className="diagnosis-result-item">
-                  <p>{o.diagnosis}</p>
+                  <p className="results-label">Patient ID:</p>
+                  <p>{d.patient_id}</p>
+                  <p className="results-label">Diagnosis:</p>
+                  <p>{d.diagnosis}</p>
                 </div>
               ))}
             </div>
