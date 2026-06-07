@@ -1,58 +1,54 @@
 import { useState } from 'react'
-import { fetchHello } from './APICalls/hello'
+import { getPatientData } from './APICalls/getPatientData'
+import { getGene } from './APICalls/getGeneData'
+import { getDiagnosisData } from './APICalls/getDiagnosisData'
+import { useData } from './contexts/DataContext'
 import searchGear from './assets/search-gear.svg'
 import './App.css'
 
-function wait(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
 function App() {
 
-  const [query, setQuery] = useState('search for...');
-  const [showPatientGeneOrganSelectorOptions, setshowPatientGeneOrganSelectorOptions] = useState(false);
+  const [showPatientGeneDiagnosisSelectorOptions, setShowPatientGeneDiagnosisSelectorOptions] = useState(false);
   const [searchCategoryTitle, setSearchCategoryTitle] = useState('Select Search Type');
   const [searchCategory, setSearchCategory] = useState('');
-  const [searchParam, setSearchParam] = useState('');
-  const [patientResults, setPatientResults] = useState([
-    {
-      "first_name": "John",
-      "last_name": "Smith",
-      "gender": "M",
-      "street_address": "123 Main St",
-      "city": "Boston",
-      "state": "MA",
-      "zip_code": "02101",
-      "phone": "555-1234"
-    }
-  ]);
-  const [geneResults, setGeneResults] = useState([
-    {
-      "gene": "BCD",
-      "gene_description": "BCD gene description"
-    }
-  ]);
-  const [organResults, setOrganResults] = useState([
-    {
-      "organ": "Liver",
-      "organ_description": "Liver description"
-    }
-  ]);
+  // const [searchParam, setSearchParam] = useState('');
 
-  const handleReactLogoClick = () => {
-    fetchHello()
-      .then((data) => console.log(data.message))
-      .catch((err) => console.error(err))
-  }
+  const { patientData, setPatientData } = useData();
+  const { geneData, setGeneData } = useData();
+  const { diagnosisData, setDiagnosisData } = useData();
 
-  const getSearchResults = async () => {
-    setTimeout(() => 2000);
-    const results = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/search?category=${searchCategory}&param=${searchParam}`)
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err));
-    console.log(results);
-  }
+  // const getPatientResults = async () => {
+  //   if (patientData.length < 1) {
+  //     try {
+  //       const results = await getPatientData(searchParam)
+  //       setPatientData(results)
+  //     } catch (err) {
+  //       console.error(err)
+  //     }
+  //   }
+  // }
+
+  // const getGeneResults = async () => {
+  //   if (geneData.length < 1) {
+  //     try {
+  //       const results = await getGene(searchParam)
+  //       setGeneData(results)
+  //     } catch (err) {
+  //       console.error(err)
+  //     }
+  //   }
+  // }
+
+  // const getDiagnosisResults = async () => {
+  //   if (diagnosisData.length < 1) {
+  //     try {
+  //       const results = await getDiagnosisData(searchParam)
+  //       setDiagnosisData(results)
+  //     } catch (err) {
+  //       console.error(err)
+  //     }
+  //   }
+  // }
 
   return (
     <>
@@ -65,13 +61,12 @@ function App() {
             <img 
               className="gene-machine"
               src={searchGear} 
-              alt="search-gear-icon" 
-              onClick={handleReactLogoClick}
+              alt="search-gear-icon"
             />
 
             <div className="header-text">
               <p className="gene-machine-title">GeneMachine</p>
-              <p className="gene-machine-description">Search for patients, genes, and diagnosis-related organs.</p>
+              <p className="gene-machine-description">Search for patients, genes, and diagnoses.</p>
             </div>
 
           </div>
@@ -81,13 +76,13 @@ function App() {
         <div id="search-bar" className="search-bar">
 
           <div 
-            id="patient-gene-organ-selector" 
-            className="patient-gene-organ-selector"
+            id="patient-gene-diagnosis-selector" 
+            className="patient-gene-diagnosis-selector"
             onClick={() => {
-              setshowPatientGeneOrganSelectorOptions(!showPatientGeneOrganSelectorOptions);
+              setShowPatientGeneDiagnosisSelectorOptions(!showPatientGeneDiagnosisSelectorOptions);
             }}
           >
-            <p className="patient-gene-organ-selector-text">{searchCategoryTitle}</p>
+            <p className="patient-gene-diagnosis-selector-text">{searchCategoryTitle}</p>
           </div>
 
           <input
@@ -96,29 +91,51 @@ function App() {
             id="search-bar-input"
             className="search-bar-input"
             placeholder="Search for..."
+            // onChange={(e) => {
+            //   setSearchParam(e.target.value);
+            //   if (searchCategory === 'Patient') {
+            //     setTimeout(() => {
+            //       getPatientResults();
+            //     }, 2000);
+            //   } else if (searchCategory === 'Gene') {
+            //     setTimeout(() => {
+            //       getGeneResults();
+            //     }, 2000);
+            //   } else if (searchCategory === 'Diagnosis') {
+            //     setTimeout(() => {
+            //       getDiagnosisResults();
+            //     }, 2000);
+            //   }
+            // 
             onChange={(e) => {
-              setSearchParam(e.target.value);
-              if (searchCategory && searchParam) {
-                getSearchResults();
+              const value = e.target.value
+              // setSearchParam(value)
+              if (!value.trim()) return
+              if (searchCategory === 'Patient') {
+                getPatientData(value).then(setPatientData).catch(console.error)
+              } else if (searchCategory === 'Gene') {
+                getGene(value).then(setGeneData).catch(console.error)
+              } else if (searchCategory === 'Diagnosis') {
+                getDiagnosisData(value).then(setDiagnosisData).catch(console.error)
               }
             }}
           />
 
         </div>
 
-        { showPatientGeneOrganSelectorOptions == true &&
+        { showPatientGeneDiagnosisSelectorOptions == true &&
         <>
 
           <div
-            className="patient-gene-organ-selector-options"
-            id="patient-gene-organ-selector-options"
+            className="patient-gene-diagnosis-selector-options"
+            id="patient-gene-diagnosis-selector-options"
           >
           
             <p className="search-category"
               onClick={() => {
                 setSearchCategory('Patient');
                 setSearchCategoryTitle('Select Search Type: Patient');
-                setshowPatientGeneOrganSelectorOptions(false);
+                setShowPatientGeneDiagnosisSelectorOptions(false);
               }}
             >
               Patient
@@ -128,17 +145,17 @@ function App() {
               onClick={() => {
                 setSearchCategory('Gene');
                 setSearchCategoryTitle('Select Search Type: Gene');
-                setshowPatientGeneOrganSelectorOptions(false);
+                setShowPatientGeneDiagnosisSelectorOptions(false);
               }}>
                 Gene
             </p>
             <p className="search-category"
               onClick={() => {
-                setSearchCategory('Organ');
-                setSearchCategoryTitle('Select Search Type: Organ');
-                setshowPatientGeneOrganSelectorOptions(false);
+                setSearchCategory('Diagnosis');
+                setSearchCategoryTitle('Select Search Type: Diagnosis');
+                setShowPatientGeneDiagnosisSelectorOptions(false);
               }}>
-              Organ
+              Diagnosis
             </p>
           
           </div>
@@ -150,7 +167,7 @@ function App() {
 
           {searchCategory === 'Patient' &&
             <div id="patient-results" className="patient-results">
-              {patientResults.map((p, index) => (  
+              {patientData.map((p, index) => (  
                 <div key={index} className="patient-result-item">
 
                   <div className="patient-result-item-details">
@@ -202,7 +219,7 @@ function App() {
 
           {searchCategory === 'Gene' &&
             <div id="gene-results">
-              {geneResults.map((g) => (  
+              {geneData.map((g) => (  
                 <div id="gene-result-item" className="gene-result-item">
                   <p>{g.gene}</p>
                   <p>{g.gene_description}</p>
@@ -210,12 +227,12 @@ function App() {
               ))}
             </div>
           }
-          {searchCategory === 'Organ' &&
-            <div id="organ-results">
-              {organResults.map((o) => (  
-                <div id="organ-result-item" className="organ-result-item">
-                  <p>{o.organ}</p>
-                  <p>{o.organ_description}</p>
+
+          {searchCategory === 'Diagnosis' &&
+            <div id="diagnosis-results">
+              {diagnosisData.map((o) => (  
+                <div id="diagnosis-result-item" className="diagnosis-result-item">
+                  <p>{o.diagnosis}</p>
                 </div>
               ))}
             </div>

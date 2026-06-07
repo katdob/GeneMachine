@@ -36,7 +36,7 @@
   padding: 1rem;
 }
 
-.patient-gene-organ-selector {
+.patient-gene-diagnosis-selector {
   font-size: 0.75rem;
   max-width: 60%;
   max-height: 10rem;
@@ -48,11 +48,11 @@
   cursor: pointer;
 }
 
-.patient-gene-organ-selector p {
+.patient-gene-diagnosis-selector p {
   margin: 0;
 }
 
-.patient-gene-organ-selector-options {
+.patient-gene-diagnosis-selector-options {
   font-size: 0.75rem;
   max-width: 20%;
   max-height: 10rem;
@@ -164,7 +164,7 @@ input:focus {
   display: inline-block;  
 }
 
-.organ-result-item {
+.diagnosis-result-item {
   border: 0.25rem solid var(--pacific-blue);
   padding: 0rem 1rem 0rem 1rem;
   margin: 0rem 0.5rem 0rem 0.5rem;
@@ -175,7 +175,7 @@ input:focus {
   min-height: 1rem;
 }
 
-.organ-result-item {
+.diagnosis-result-item {
   display: inline-block;  
 }
 

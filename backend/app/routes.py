@@ -32,8 +32,8 @@ def hello():
     return jsonify({"message": message})
 
 
-@routes_bp.get("/get_gene")
-def get_gene():
+@routes_bp.get("/get_genes")
+def get_genes():
     gene = request.args.get("gene", "").strip()
 
     if not gene:
@@ -46,8 +46,8 @@ def get_gene():
     return jsonify([result.to_dict() for result in results])
 
 
-@routes_bp.get("/get_patient")
-def get_patient():
+@routes_bp.get("/get_patients")
+def get_patients():
     patient = request.args.get("patient", "").strip()
 
     if not patient:
